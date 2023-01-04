@@ -18,15 +18,19 @@ export default class MealsService {
       return null;
     }
 
-    let detailedMeals: DetailedMeal[] = [];
-
+    let promises: Promise<DetailedMeal | null>[] = [];
     for (let meal of mealOverviews) {
-      const detailedMeal = await this.getDetailedMeal(meal.idMeal);
-
-      if (detailedMeal) {
-        detailedMeals.push(detailedMeal);
-      }
+      promises.push(this.getDetailedMeal(meal.idMeal));
     }
+
+    let detailedMeals: DetailedMeal[] = [];
+    let resolvedPromises = await Promise.all(promises);
+
+    resolvedPromises.forEach((p) => {
+      if (p) {
+        detailedMeals.push(p);
+      }
+    });
 
     return detailedMeals;
   }
