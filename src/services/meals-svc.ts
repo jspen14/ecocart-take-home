@@ -46,6 +46,8 @@ export default class MealsService {
       return null;
     }
 
+    console.log(res.data.meals.length);
+
     return res.data.meals;
   }
 
@@ -70,7 +72,7 @@ export default class MealsService {
     let counter = 0;
     let ingredients: Ingredient[] = [];
 
-    while (true) {
+    for (let i = 1; i <= 20; i++) {
       counter++;
       const ingredientKey = `strIngredient${counter}`;
       const ingredientValue = (mealResponse as any)[ingredientKey];
